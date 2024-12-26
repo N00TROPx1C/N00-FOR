@@ -1,13 +1,13 @@
 # N00-FOR
 Script de coleta de artefatos em hosts windows via powershell
 
-ooooo      ooo   .oooo.     .oooo.            .o88o.   .oooooo.   ooooooooo.
-'888b.     '8'  d8P''Y8b   d8P''Y8b           888 '   d8P    Y8b   888    Y88.
- 8 '88b.    8  888    888 888    888         o888oo  888      888  888   .d88'
- 8   '88b.  8  888    888 888    888          888    888      888  888ooo88P'
- 8     '88b.8  888    888 888    888 8888888  888    888      888  888'88b.
- 8       '888  '88b  d88' '88b  d88'          888    '88b    d88'  888  '88b.
-o8o        '8   'Y8bd8P'   'Y8bd8P'          o888o    'Y8bood8P'  o888o  o888o 0.1
+ooooo      ooo   .oooo.     .oooo.            .o88o.   .oooooo.   ooooooooo.                                                                                                          
+'888b.     '8'  d8P''Y8b   d8P''Y8b           888 '   d8P    Y8b   888    Y88.                                                                                                                   
+ 8 '88b.    8  888    888 888    888         o888oo  888      888  888   .d88'                                                                                                            
+ 8   '88b.  8  888    888 888    888          888    888      888  888ooo88P'                                                                                                      
+ 8     '88b.8  888    888 888    888 8888888  888    888      888  888'88b.                                                                                                   
+ 8       '888  '88b  d88' '88b  d88'          888    '88b    d88'  888  '88b.                                                                                            
+o8o        '8   'Y8bd8P'   'Y8bd8P'          o888o    'Y8bood8P'  o888o  o888o 0.1                                                                              
 
 
 N00-FOR é um script para powershell com a função de coletar artefatos com relevancia forense para hosts windows(exclusivamente)
