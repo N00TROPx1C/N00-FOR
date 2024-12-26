@@ -35,10 +35,73 @@ Amcache_DriveBinaries.csv
 Amcache_DriverPackages.csv
 Amcache_ShortCuts.csv
 Amcache_UnassociatedFileEntries.csv
+#Coletas do AmCacheParses
 
-Coming soon....
+LogsEvt/
+#Todos os logs de eventos do windows
+
+%User%/
+#Pode conter: Histórico de execuções do powershell de cada usuário
+#E
+#Startup folder (shel:startup)
+
+N00-HUNTER-RESULTS/
+# Resultados da busca do HollowHunter
+
+Autoruns.txt
+#Chaves de registros AUTORUNS
+
+DiscosFisicos.txt
+#Discos fisicos associados ao host
+
+DNSCACHE.txt
+#Cache de DNS do host
+
+Hotfixes.txt
+#hotfixes instalados
+
+listen_ports_process.txt
+#Processos que possuem conexão com a internet, e o calculo do hash do path (se houver)
+
+listen_ports.txt
+#Lista detalhada de todos os processos que possuem conexão de rede, sem hash.
+
+Local_users.txt
+#Lista de usuários locais
+
+N00-NetCon.txt
+# Resultado do netstat
+
+netadapter.txt
+#adaptadores de rede associado ao host
+
+Process_connection_detail.txt
+#Semelhante ao listen_ports_process.txt mas com melhor visibilidade
+
+Processos_em_execução.txt
+#Todos os processos atualmente em execução
+
+scheduletaskhashes.txt
+#calculo do hash do path que estiver no campo ACTION de uma tarefa agendasa. o formato é:
+#PATH DO PROCESSO
+#HASH DO PROCESSO 
+
+SCHEDULETASKS.txt
+#Todas as tarefas agendadas registradas
+
+Services.txt
+#Todos os serviços associados ao host
+
+SMBSHARE.txt
+#Todos os compartilhamentos de rede disponivel no host
+
+O script (N00-FOR) está em constante evolução. A medida que é identificado algo novo que pode ser associado a ele, assim será feito.
+Você pode sugerir algo novo!
 
 
+coming soon....
+
+linkedin.com/in/viniciusth-mello
 
 
 
