@@ -46,7 +46,7 @@ LogsEvt/
 #Startup folder (shel:startup)
 
 N00-HUNTER-RESULTS/
-# Resultados da busca do HollowHunter
+#Resultados da busca do HollowHunter
 
 Autoruns.txt
 #Chaves de registros AUTORUNS
@@ -70,7 +70,7 @@ Local_users.txt
 #Lista de usuários locais
 
 N00-NetCon.txt
-# Resultado do netstat
+#Resultado do netstat
 
 netadapter.txt
 #adaptadores de rede associado ao host
