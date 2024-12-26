@@ -98,6 +98,9 @@ SMBSHARE.txt
 O script (N00-FOR) está em constante evolução. A medida que é identificado algo novo que pode ser associado a ele, assim será feito.
 Você pode sugerir algo novo!
 
+A ultima coleta, atualmente, é a utilização do HOLLOW_HUNTER (https://github.com/hasherezade/hollows_hunter)
+Ele é carregado diretamente no disco de uma grande string em base 64.  # Sua ferramenta de EDR pode reclamar
+
 
 coming soon....
 
