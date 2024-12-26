@@ -1,4 +1,4 @@
-# N00-FOR
+# N00-FOR - Em desenvolvimento
 Script de coleta de artefatos em hosts windows via powershell
 
 >>>N00-FOR 0.1<<<
