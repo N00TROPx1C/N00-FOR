@@ -1,15 +1,7 @@
 # N00-FOR
 Script de coleta de artefatos em hosts windows via powershell
 
-.--------------------------------------------.
-|                                            |
-|  _   _  ___   ___        _____ ___  ____   |
-| | \ | |/ _ \ / _ \      |  ___/ _ \|  _ \  |
-| |  \| | | | | | | |_____| |_ | | | | |_) | |
-| | |\  | |_| | |_| |_____|  _|| |_| |  _ <  |
-| |_| \_|\___/ \___/      |_|   \___/|_| \_\ |
-|                                            |
-'--------------------------------------------'
+>>>N00-FOR 0.1<<<
 
 N00-FOR é um script para powershell com a função de coletar artefatos com relevancia forense para hosts windows(exclusivamente)
 
@@ -34,13 +26,15 @@ O script tambem descarrega algumas outras ferramentas, como AmCacheParsers de Er
 No final você irá obter um resultado com as seguintes informações.
 
 appAmCcche/
-
+|
 Amcache_DeviceContainers.csv
 Amcache_DevicePnps.csv
 Amcache_DriveBinaries.csv
 Amcache_DriverPackages.csv
 Amcache_ShortCuts.csv
 Amcache_UnassociatedFileEntries.csv
+
+Comming son....
 
 
 
