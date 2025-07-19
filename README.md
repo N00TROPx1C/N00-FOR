@@ -1,119 +1,131 @@
-# N00-FOR - Em desenvolvimento
-Script de coleta de artefatos em hosts windows via powershell
+# N00-FOR
 
->>>N00-FOR 0.1<<<
+[![Versão](https://img.shields.io/badge/version-0.1-blue.svg)](https://github.com/N00TROPx1C/N00-FOR)
 
-N00-FOR é um script para powershell com a função de coletar artefatos com relevância forense para hosts windows(exclusivamente)
+> Script de coleta de artefatos forenses em hosts Windows via PowerShell
 
-Para utilizar o script é recomendável que seja executado por uma midia removivel, se possível.
-Ao ser executado ele irá te dar 4 opções.
+---
 
-  1 - Coleta completa                                                                       
-  2 - Coleta simples (fast)                                                                 
-  3 - Sair                                                                                  
-  4 - Ajuda                                                    
+## Índice
 
-Feito por: N00TROPx1C
+* [Sobre](#sobre)
+* [Funcionalidades](#funcionalidades)
+* [Pré-requisitos](#pré-requisitos)
+* [Instalação e Uso](#instalação-e-uso)
 
-A primeira opção executa uma coleta completa e por consequência mais demorada.
-A segunda opção executa uma coleta simples que é entregue em menos de 1minuto
-A terceira opção saí do script
-A quarta opção exibe uma breve ajuda (não substitui esse README)
+  * [Opções](#opções)
+* [Estrutura de Saída](#estrutura-de-saída)
+* [Ferramentas Utilizadas](#ferramentas-utilizadas)
+* [Contribuições](#contribuições)
+* [Licença](#licença)
+* [Autor](#autor)
 
-Ao optar pela coleta completa o script irá descarregar no disco (exclusivamente na pasta TEMP do usuário a qual está executando) a ferramenta Magnet RAM Capture, com o nome alterado, evitando detecção por nome.
-Após o processo do Magnet ser finalizado ele irá seguir com as coletas, isso ocorre a fim de reduzir o máximo possível os ruídos no DUMP de memória.
+---
 
-O script também descarrega algumas outras ferramentas, como AmCacheParsers de Erick Zimmerman a fim de lidar com a impossibilidade de análise do NTUSER.DAT in live.
+## Sobre
 
-No final você irá obter um resultado com as seguintes informações.
+O **N00-FOR** é um script em PowerShell (versão 5.1 ou superior) voltado para coleta automatizada de artefatos relevantes para investigações forenses em sistemas Windows. Ideal para uso a partir de mídia removível, reduzindo ruídos durante a captura de memória.
 
-appAmCcche/
-|
-Amcache_DeviceContainers.csv
-Amcache_DevicePnps.csv
-Amcache_DriveBinaries.csv
-Amcache_DriverPackages.csv
-Amcache_ShortCuts.csv
-Amcache_UnassociatedFileEntries.csv
-#Coletas do AmCacheParses
+## Funcionalidades
 
-LogsEvt/
-#Todos os logs de eventos do windows
+* **Coleta Completa**: Dump de memória RAM via Magnet RAM Capture, seguido de varredura de diversos artefatos.
+* **Coleta Rápida**: Execução simplificada, finaliza em menos de 1 minuto.
+* **Ajuda**: Informações de uso diretamente no console.
 
-%User%/
-#Pode conter: Histórico de execuções do powershell de cada usuário
-#E
-#Startup folder (shel:startup)
+## Pré-requisitos
 
-N00-HUNTER-RESULTS/
-#Resultados da busca do HollowHunter
+1. PowerShell 5.1 ou superior com política de execução ajustada:
 
-Autoruns.txt
-#Chaves de registros AUTORUNS
+   ```powershell
+   Set-ExecutionPolicy Bypass -Scope Process
+   ```
+2. Permissões de Administrador.
+3. Recomenda-se mídia removível para execução (pendrive, HD externo etc.).
 
-DiscosFisicos.txt
-#Discos fisicos associados ao host
+## Instalação e Uso
 
-DNSCACHE.txt
-#Cache de DNS do host
+1. Clone ou baixe este repositório:
 
-Hotfixes.txt
-#hotfixes instalados
+   ```powershell
+   git clone https://github.com/N00TROPx1C/N00-FOR.git
+   ```
+2. Na pasta do script, execute:
 
-listen_ports_process.txt
-#Processos que possuem conexão com a internet, e o calculo do hash do path (se houver)
+   ```powershell
+   powershell.exe -ExecutionPolicy Bypass -File .\N00-FOR.ps1
+   ```
 
-listen_ports.txt
-#Lista detalhada de todos os processos que possuem conexão de rede, sem hash.
+### Opções
 
-Local_users.txt
-#Lista de usuários locais
+Ao iniciar, o script exibirá um menu com quatro opções:
 
-N00-NetCon.txt
-#Resultado do netstat
+| Opção | Descrição                                |
+| :---: | ---------------------------------------- |
+|   1   | Coleta completa (mais demorada)          |
+|   2   | Coleta rápida (fast) — conclusão < 1 min |
+|   3   | Sair                                     |
+|   4   | Ajuda                                    |
 
-netadapter.txt
-#adaptadores de rede associado ao host
+---
 
-Process_connection_detail.txt
-#Semelhante ao listen_ports_process.txt mas com melhor visibilidade
+## Estrutura de Saída
 
-Processos_em_execução.txt
-#Todos os processos atualmente em execução
+Após a execução, os resultados serão salvos em pastas e arquivos na pasta `%TEMP%` do usuário:
 
-scheduletaskhashes.txt
-#calculo do hash do path que estiver no campo ACTION de uma tarefa agendasa. o formato é:
-#PATH DO PROCESSO
-#HASH DO PROCESSO 
+* **appAmCache/**
 
-SCHEDULETASKS.txt
-#Todas as tarefas agendadas registradas
+  * `Amcache_DeviceContainers.csv`
+  * `Amcache_DevicePnps.csv`
+  * `Amcache_DriveBinaries.csv`
+  * `Amcache_DriverPackages.csv`
+  * `Amcache_ShortCuts.csv`
+  * `Amcache_UnassociatedFileEntries.csv`
+* **LogsEvt/**
 
-Services.txt
-#Todos os serviços associados ao host
+  * Todos os arquivos de log de eventos do Windows (*.evtx*)
+* **%User%/**
 
-SMBSHARE.txt
-#Todos os compartilhamentos de rede disponivel no host
+  * Histórico de execução do PowerShell
+  * Conteúdo da pasta de inicialização do usuário (shel\:startup)
+* **N00-HUNTER-RESULTS/**
 
-O script (N00-FOR) está em constante evolução. A medida que é identificado algo novo que pode ser associado a ele, assim será feito.
-Você pode sugerir algo novo!
+  * Saída do Hollow Hunter (EDR scanning)
+* `Autoruns.txt`        — Chaves de registro de inicialização automática
+* `DiscosFisicos.txt`  — Listagem de discos físicos
+* `DNSCACHE.txt`       — Cache de DNS
+* `Hotfixes.txt`       — Atualizações instaladas
+* `listen_ports.txt` e `listen_ports_process.txt` — Conexões de rede e hashes
+* `Local_users.txt`    — Usuários locais
+* `N00-NetCon.txt`     — Resultado do netstat
+* `netadapter.txt`     — Adaptadores de rede
+* `Processos_em_execução.txt` — Processos ativos
+* `SCHEDULETASKS.txt` e `scheduletaskhashes.txt` — Tarefas agendadas e hashes
+* `Services.txt`       — Serviços do Windows
+* `SMBSHARE.txt`       — Compartilhamentos de rede
 
-A ultima coleta, atualmente, é a utilização do HOLLOW_HUNTER (https://github.com/hasherezade/hollows_hunter)
-Ele é carregado diretamente no disco de uma grande string em base 64.  # Sua ferramenta de EDR pode reclamar
+---
 
+## Ferramentas Utilizadas
 
-coming soon....
+* [Magnet RAM Capture](https://github.com/Velocidex/WinPmem)
+* [AmCacheParser](https://github.com/EricZimmerman/AmcacheParser)
+* [Hollows Hunter](https://github.com/hasherezade/hollows_hunter)
 
-linkedin.com/in/viniciusth-mello
+---
 
+## Contribuições
 
+Contribuições são bem-vindas! Abra issues para sugestões ou pull requests para correções e novas funcionalidades.
 
+---
 
+## Licença
 
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
 
+---
 
+## Autor
 
-
-
-
-
+Feito por: **N00TROPx1C**
+LinkedIn: [viniciusth-mello](https://linkedin.com/in/viniciusth-mello)
