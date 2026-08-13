@@ -32,7 +32,7 @@
     powershell.exe -ExecutionPolicy Bypass -File .\N00-FOR.ps1
     powershell.exe -ExecutionPolicy Bypass -File .\N00-FOR.ps1 -Mode Fast -NoZip -Out D:\
 .NOTES
-    Versão   : 2.0.0
+    Versão   : 2.0.1
     Autor    : Vinicius 'N00TROPx1C' Mello
     Licença  : MIT
 #>
@@ -52,7 +52,7 @@ param(
 # =============================================================================
 # CONFIGURAÇÃO
 # =============================================================================
-$script:Version          = '2.0.0'
+$script:Version          = '2.0.1'
 $script:MagnetVersion    = '1.0.0.0'
 $script:HollowsVersion   = '0.4.0.0'
 $script:HunterTimeoutSec = 1800          # 30 min máx para Hollows Hunter
@@ -12003,7 +12003,7 @@ function Invoke-RamDump {
     }
 
     Write-Info 'Capturando memória RAM (pode demorar conforme o tamanho da RAM)...'
-    $proc = Start-Process -FilePath $dumpExe -ArgumentList '/AcceptEula' -WorkingDirectory $RamDir -PassThru -ErrorAction Stop
+    Start-Process -FilePath $dumpExe -ArgumentList '/AcceptEula' -WorkingDirectory $RamDir -ErrorAction Stop
     [void](Wait-ProcessExit -ProcessName 'N00-DUMP' -TimeoutSec $script:HunterTimeoutSec -ProgressText '#')
 
     $dumpFiles = Get-ChildItem -Path $RamDir | Where-Object { -not $_.PSIsContainer -and $_.Name -ne 'N00-DUMP.exe' }
@@ -12272,7 +12272,9 @@ function Collect-ScheduledTaskHashes {
                 try {
                     $clean = [Environment]::ExpandEnvironmentVariables($clean)
                 }
-                catch { }
+                catch {
+                    # Variáveis de ambiente não resolvíveis — mantém o path original
+                }
             }
             $clean = $clean -replace '"', ''
 
@@ -12460,12 +12462,13 @@ function Collect-ListeningProcessHashes {
     Get-NetTCPConnection | Select-Object * | Out-File -FilePath (Join-Path $Dir 'listen_ports.txt') -Encoding UTF8
 
     $outFile = Join-Path $Dir 'listen_ports_process.txt'
-    foreach ($pid in $connections) {
-        if (-not $pid) { continue }
+    # NOTA: NUNCA usar $pid — é variável automática read-only (PID do processo atual)
+    foreach ($procPid in $connections) {
+        if (-not $procPid) { continue }
         "================================================================" | Out-File -FilePath $outFile -Encoding UTF8 -Append
         try {
-            $proc = Get-Process -Id $pid -ErrorAction Stop
-            "PID=$pid NAME=$($proc.ProcessName) PATH=$($proc.Path)" | Out-File -FilePath $outFile -Encoding UTF8 -Append
+            $proc = Get-Process -Id $procPid -ErrorAction Stop
+            "PID=$procPid NAME=$($proc.ProcessName) PATH=$($proc.Path)" | Out-File -FilePath $outFile -Encoding UTF8 -Append
 
             if ($proc.Path) {
                 $hash = Get-FileHashSafe -Path $proc.Path
@@ -12474,10 +12477,10 @@ function Collect-ListeningProcessHashes {
             else {
                 'SHA256=INDISPONIVEL (processo protegido do sistema)' | Out-File -FilePath $outFile -Encoding UTF8 -Append
             }
-            Get-NetTCPConnection -OwningProcess $pid -ErrorAction SilentlyContinue | Out-File -FilePath $outFile -Encoding UTF8 -Append
+            Get-NetTCPConnection -OwningProcess $procPid -ErrorAction SilentlyContinue | Out-File -FilePath $outFile -Encoding UTF8 -Append
         }
         catch {
-            "PID=$pid ERRO=processo encerrou antes da coleta" | Out-File -FilePath $outFile -Encoding UTF8 -Append
+            "PID=$procPid ERRO=processo encerrou antes da coleta" | Out-File -FilePath $outFile -Encoding UTF8 -Append
         }
     }
     Write-Info 'listen_ports.txt e listen_ports_process.txt gerados.'
@@ -12500,11 +12503,15 @@ function Invoke-HollowsHunter {
         return
     }
 
+    $scanLog = Join-Path $Dir 'N00-Hunter_scan.log'
     try {
-        Start-Process -FilePath $hunterExe -ArgumentList "/minidmp /dir `"$Dir`"" -ErrorAction Stop
+        # /log faz o HH manter o próprio log no diretório; o stdout (relatório
+        # da varredura) é capturado como evidência — em sistema limpo o HH não
+        # gera dumps nem arquivos, então o log da varredura é o único artefato.
+        Start-Process -FilePath $hunterExe -ArgumentList "/minidmp /log /dir `"$Dir`"" -RedirectStandardOutput $scanLog -ErrorAction Stop
         $done = Wait-ProcessExit -ProcessName 'N00-Hunter' -TimeoutSec $script:HunterTimeoutSec -ProgressText '.'
         if ($done) {
-            Write-Info 'Hollows Hunter concluído.'
+            Write-Info 'Hollows Hunter concluído (varredura registrada em N00-Hunter_scan.log).'
         }
         else {
             Write-Warn-Script 'Hollows Hunter excedeu o timeout — resultados podem estar parciais.'
@@ -12527,7 +12534,6 @@ function New-Manifest {
     #>
     param(
         [string]$EvidenceDir,
-        [string]$DestBase,
         [string]$CollectionMode
     )
 
@@ -12618,7 +12624,7 @@ function Show-Banner {
         "# 8   '88b.  8  888    888 888    888          888    888      888  888ooo88P'               #",
         "# 8     '88b.8  888    888 888    888 8888888  888    888      888  888'88b.                 #",
         "# 8       '888  '88b  d88' '88b  d88'          888    '88b    d88'  888  '88b.               #",
-        "#o8o        '8   'Y8bd8P'   'Y8bd8P'          o888o    'Y8bood8P'  o888o  o888o 2.0.0        #",
+        "#o8o        '8   'Y8bd8P'   'Y8bd8P'          o888o    'Y8bood8P'  o888o  o888o 2.0.1        #",
         '#                                                                                            #',
         "#  Escolha uma opção de coleta de artefatos                                                  #",
         '#                                                                                            #',
@@ -12818,7 +12824,7 @@ try {
     # -------------------------------------------------------------------------
     # 6. Manifest e ZIP
     # -------------------------------------------------------------------------
-    New-Manifest -EvidenceDir $evidenceDir -DestBase $destBase -CollectionMode $Mode
+    New-Manifest -EvidenceDir $evidenceDir -CollectionMode $Mode
 
     if (-not $NoZip) {
         $zipPath = "$destBase.zip"
@@ -12847,5 +12853,6 @@ catch {
     Write-Warn-Script 'A coleta terminou com erro. Verifique o log de execução na pasta de saída.'
 }
 finally {
+    # Transcript pode não estar ativo (ex: falha no Start-Transcript) — erro ignorado
     try { Stop-Transcript | Out-Null } catch { }
 }
