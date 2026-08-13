@@ -1,6 +1,6 @@
 # N00-FOR
 
-[![Versão](https://img.shields.io/badge/vers%C3%A3o-2.0.0-blue.svg)](https://github.com/N00TROPx1C/N00-FOR)
+[![Versão](https://img.shields.io/badge/vers%C3%A3o-2.0.1-blue.svg)](https://github.com/N00TROPx1C/N00-FOR)
 
 > Script de coleta de artefatos forenses em hosts Windows via PowerShell
 
