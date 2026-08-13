@@ -3,6 +3,22 @@
 Todas as mudanças notáveis do **N00-FOR** serão documentadas neste arquivo.
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
+## [2.0.1] — 2026-08-13
+
+Correções descobertas no teste real do modo Full (Windows Server 2019).
+
+### Corrigido
+
+- **Fatal no modo Full**: variável de loop `$pid` colidia com a variável
+  automática read-only `$PID` do PowerShell (derrubava o script na etapa de
+  processos com conexão ativa). Renomeada para `$procPid`.
+- **Hollows Hunter sem evidência**: em sistemas limpos o HH não gera dumps nem
+  relatório em disco (a saída fica no console). O script agora executa com
+  `/log` e captura o stdout em `N00-Hunter_scan.log` — a varredura fica
+  documentada mesmo sem achados.
+- Parâmetro não utilizado (`-DestBase`) e variável morta removidos;
+  catches vazios documentados (higiene via PSScriptAnalyzer — 0 erros).
+
 ## [2.0.0] — 2026-08-13
 
 Reescrita completa com foco em confiabilidade de entrega: o objetivo do script é
