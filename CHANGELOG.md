@@ -3,6 +3,24 @@
 Todas as mudanças notáveis do **N00-FOR** serão documentadas neste arquivo.
 Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
 
+## [2.1.0] — 2026-08-14
+
+### Alterado
+
+- **Dump de RAM agora usa WinPmem 4.0 rc2** (open source, Apache 2.0) no lugar
+  do Magnet RAM Capture 1.0.0.0. Descoberto em teste real (headless via task):
+  o Magnet é um app GUI e **travava em execução não-interativa** (janela
+  invisível esperando interação, CPU parada, dump congelado). O WinPmem é CLI
+  puro e funciona headless — validado com dump completo de 9 GB no lab.
+
+### Adicionado
+
+- Nome descritivo do dump: `<HOST>_<timestamp>.raw`.
+- **Validação do dump**: tamanho mínimo (> 50 MB) — dumps incompletos são
+  removidos com aviso (lição do travamento do Magnet).
+- **SHA256 do dump** gravado em `RAM\dump.sha256` (cadeia de custódia do
+  arquivo que sai do zip).
+
 ## [2.0.1] — 2026-08-13
 
 Correções descobertas no teste real do modo Full (Windows Server 2019).
