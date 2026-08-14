@@ -1,6 +1,6 @@
 # N00-FOR
 
-[![Versão](https://img.shields.io/badge/vers%C3%A3o-2.0.1-blue.svg)](https://github.com/N00TROPx1C/N00-FOR)
+[![Versão](https://img.shields.io/badge/vers%C3%A3o-2.1.0-blue.svg)](https://github.com/N00TROPx1C/N00-FOR)
 
 > Script de coleta de artefatos forenses em hosts Windows via PowerShell
 
@@ -116,7 +116,7 @@ E ao lado da pasta:
 
 | Ferramenta | Uso | Versão embutida |
 |---|---|---|
-| [Magnet RAM Capture](https://www.magnetforensics.com/resources/magnet-ram-capture/) | Dump de memória RAM | 1.0.0.0 |
+| [WinPmem](https://github.com/Velocidex/WinPmem) | Dump de memória RAM (CLI, headless) | 4.0 rc2 |
 | [Hollows Hunter](https://github.com/hasherezade/hollows_hunter) | Varredura de memória de processos (injeção/hollowing) | 0.4.0.0 |
 | [AmCacheParser](https://github.com/EricZimmerman/AmcacheParser) (Eric Zimmerman) | Parse do Amcache — executado **offline no laboratório do analista** | — |
 
